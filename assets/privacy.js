@@ -9,11 +9,22 @@
   } : {
     title: 'Privacy and cookies', description: 'With your permission, we use Google Tag Manager (which may run Google Analytics) and Microsoft Clarity to measure visits and understand site use. These tools may use cookies and collect browsing data, including page interactions. Data may be processed outside your country. Your choice is stored in this browser and can be changed under “Privacy and cookies”.', accept: 'Accept analytics', reject: 'Reject analytics', manage: 'Privacy and cookies', contact: 'To request information or exercise your rights, contact:', video: 'Load YouTube video', videoInfo: 'Loading the video connects you to YouTube, which may collect browsing data.'
   };
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { window.dataLayer.push(arguments); };
+  window.gtag('consent', 'default', {
+    analytics_storage: 'denied',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied'
+  });
   function startAnalytics() {
-    window.dataLayer = window.dataLayer || [];
+    window.gtag('consent', 'update', {
+      analytics_storage: 'granted',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied'
+    });
     window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
-    window.gtag = function () { window.dataLayer.push(arguments); };
-    window.gtag('js', new Date());
     var gtm = document.createElement('script');
     gtm.async = true; gtm.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-KKDBBZ5G';
     document.head.appendChild(gtm);
@@ -56,6 +67,12 @@
       if (!choice) return;
       try { localStorage.setItem(key, choice); } catch (e) {}
       if (choice === 'rejected') {
+        window.gtag('consent', 'update', {
+          analytics_storage: 'denied',
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied'
+        });
         clearAnalyticsCookies();
         if (consent === 'accepted') { location.reload(); return; }
       } else if (consent !== 'accepted') startAnalytics();
