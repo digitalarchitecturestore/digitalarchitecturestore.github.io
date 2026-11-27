@@ -38,13 +38,12 @@
     if (event.key === key && event.newValue !== consent) location.reload();
   });
   function clearAnalyticsCookies() {
-    var host = location.hostname.split('.');
     document.cookie.split(';').forEach(function (item) {
       var name = item.split('=')[0].trim();
       if (!/^(_ga(?:_.*)?|_gid|_gat(?:_.*)?|_gcl_.*|_clck|_clsk|CLID|ANONCHK|MR|MUID|SM)$/.test(name)) return;
       var expired = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax';
       document.cookie = expired;
-      for (var i = 0; i < host.length - 1; i++) document.cookie = expired + '; domain=.' + host.slice(i).join('.');
+      document.cookie = expired + '; domain=' + location.hostname;
     });
   }
   function init() {
