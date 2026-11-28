@@ -50,6 +50,16 @@
       ad_personalization: 'denied'
     });
 
+    /* GA4 Cross-Domain Tracking */
+
+    window.gtag('set', 'linker', {
+      domains: [
+        'digitalarchitecturestore.github.io',
+        'pay.hotmart.com'
+      ],
+      accept_incoming: true
+    });
+
     window.dataLayer.push({
       'gtm.start': new Date().getTime(),
       event: 'gtm.js'
@@ -68,7 +78,7 @@
     clarity.async = true;
     clarity.src = 'https://www.clarity.ms/tag/zkbjopify3';
     document.head.appendChild(clarity);
-  }
+}
 
   if (consent === 'accepted') startAnalytics();
 
