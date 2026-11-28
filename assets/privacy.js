@@ -373,6 +373,9 @@
       }
 
       consent = choice;
+      window.dispatchEvent(new CustomEvent('da:consent-change', {
+        detail: choice
+      }));
       panel.hidden = true;
     });
 
